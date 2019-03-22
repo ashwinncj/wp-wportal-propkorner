@@ -6,7 +6,7 @@ function register_function() {
         echo 'You are already Logged in! ' . '<a href=' . wp_logout_url(home_url()) . '>Logout</a> ';
     } else {
         if (isset($_POST['user_email']) && isset($_POST['user_password']) && isset($_POST['user_mobile']) && isset($_POST['register'])) {
-            $username = uniqid('radel-user');
+            $username = uniqid('propkorner-user');
             $user_id = username_exists($username);
             if (!$user_id and email_exists($_POST['user_email']) == false) {
 
@@ -14,7 +14,7 @@ function register_function() {
                     'user_email' => $_POST['user_email'],
                     'user_login' => $username,
                     'user_pass' => $_POST['user_password'],
-                    'role' => 'radelcustomer',
+                    'role' => 'propkorner_user',
                     'first_name' => $_POST['full_name'],
                     'display_name' => $_POST['full_name'],
                 );

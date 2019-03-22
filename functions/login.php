@@ -12,7 +12,7 @@ function signon_function() {
         if (is_wp_error($user)) {
             echo $user->get_error_message();
         } else {
-            wp_redirect(admin_url());
+            wp_redirect(site_url());
             exit();
         }
     } else {
