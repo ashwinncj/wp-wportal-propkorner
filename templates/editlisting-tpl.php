@@ -28,7 +28,7 @@
         <input type="text" name="user_id" hidden value="<?php echo $user_id; ?>">
 
         <label><span class="prop_mandatory">* </span>Title</label><br>
-        <input type="text" required name="title" value="<?php echo $title; ?>">
+        <input type="text" required name="title" value="<?php echo $title; ?>"><br>
 
         <input type="radio" required name="listing_type" class="for-rent" value="rent" <?php echo $listing_type == 'rent' ? 'checked' : ''; ?>><label class="radio-inline">For Rent</label>
         <input type="radio" required name="listing_type" class="for-sale" value="sell" <?php echo $listing_type == 'sell' ? 'checked' : ''; ?>><label class="radio-inline">For Sell</label>

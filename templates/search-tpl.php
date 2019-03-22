@@ -74,6 +74,7 @@
         bottom: 50%;
     }
     .c33{
+        vertical-align: top;
         text-align: center;
         width: 31%;
         display: inline-block;
@@ -88,109 +89,22 @@
         width:100%;
     }
 </style>
-<div class="wrap">
-    <div id="search-container">
-        <input id="search-term" type="search">
-        <button id="search-term-button" hidden onclick="search_listings();">Search</button>
-    </div>
-    <div id="listing-division"></div>
-</div>
 <?php
 $myFile = wp_get_upload_dir()['baseurl'] . "/data.json";
 $site_url = site_url();
 ?>
+<div class="wrap">
+    <div id="search-container">
+        <input id="search-term" placeholder="Type here to search..." type="search">
+        <button id="search-term-button" hidden onclick="search_listings();">Search</button>
+    </div>
+    <div id="listing-division"></div>
+    <div id="parameters">
+        <input id="site-url" type="text" hidden value="<?php echo $site_url; ?>">
+        <input id="json-data" type="text" hidden value="<?php echo $myFile; ?>">
+    </div>
+</div>
+
 <script>
-    jQuery(document).ready(function ($) {
-        site_url = '<?php echo $site_url; ?>';
-        var listings_data;
-        search = {};
-        search.title = '';
-        $.urlParam = function (name) {
-            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-            return (results ? results[1] : 0);
-        }
-        x = $.urlParam('search');
-        if ((x == '0') || (x == '')) {
-            search.title = '';
-        } else {
-            search.title = x;
-        }
-        property_listings();
-    });
-    $('#search-term').keypress(function (e) {
-        if (e.which == 13) {//Enter key pressed
-            $('#search-term-button').click();//Trigger search button click event
-        }
-    });
-    function search_listings() {
-        term = $('#search-term').val();
-        search.title = term;
-        show_listings(search);
-    }
-    function show_listings(search_term) {
-        count = 0;
-        $('#listing-division').html('');
-        $.each(listings_data, function (i, listing) {
-            count++;
-            if (count > 100) {
-                return false;
-            }
-            skip = false;
-            found = false;
-            title = listing.title;
-            var searchwords = search_term.title.split(" ");
-            $.each(searchwords, function (i, word) {
-                if (title.toLowerCase().indexOf(word.toLowerCase()) == -1) {
-                    skip = true;
-                    return
-                } else {
-                    found = true;
-                }
-            });
-            if (skip && !found) {
-                return true;
-            }
-
-            content = '';
-            //console.log(listing);
-            content += '<div class="listing-container">';
-            content += '<a target="blank" href="' + site_url + '/property/?property=' + listing.id + '"><img src="' + ((listing.featured_image != '') ? listing.featured_image : '') + '" alt="Property Featured Image" class="listing-image"></a>';
-            content += '<div class="listing-overlay1">';
-            content += '<div><a target="blank" href="' + site_url + '/property/?property=' + listing.id + '" style="color:black"><b>' + listing.title + '</b></a></div>';
-            content += '</div>';
-            content += '<div class="listing-overlay">';
-            content += '<div style="width: 100%;color:white;">';
-            content += '<div class="c100" style="padding: 10px;font-size: 16px;padding-bottom: 18px">';
-            content += '<div class="c33">';
-            content += '<span style="color:green">&#x20b9;</span> ' + listing.rent + '';
-            content += '</div>';
-            content += '<div class="c33">';
-            content += listing.locality;
-            content += '</div>';
-            content += '<div class="c33">';
-            content += 'Contact';
-            content += '</div>';
-            content += '</div>';
-            content += '<div class="c100">';
-            content += '<div class="c25">Area<br>' + listing.built_up_area + 'SqFt</div>';
-            content += '<div class="c25">BHK<br>' + listing.bhk_type + '</div>';
-            content += '<div class="c25">Bedrooms<br>' + listing.bedrooms + '</div>';
-            content += '<div class="c25">Parking<br>' + (listing.parking == 1 ? 'Yes' : 'No') + '</div>';
-            content += '</div>';
-            content += '</div>';
-            content += '</div>';
-            content += '</div>';
-            $('#listing-division').append(content);
-        });
-    }
-
-    function property_listings() {
-        jQuery(document).ready(function ($) {
-            $.getJSON("<?php echo $myFile; ?>", function (result) {
-                listings_data = result;
-                show_listings(search);
-            });
-        });
-        return true;
-    }
+    
 </script>

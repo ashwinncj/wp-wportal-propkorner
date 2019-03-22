@@ -1,124 +1,142 @@
 <?php
 
 function edit_listing_shortcode_function() {
-    ob_start();
-    global $wpdb;
-    $listing = isset($_GET['listing']) ? $_GET['listing'] != '' ? $_GET['listing'] : 'new' : 'new';
-    if (isset($_POST['upload_listing'])) {
-        $insert_id = upload_listing($_POST);
-        $error = 'Listing updated!';
-        $listing = $insert_id;
-    }
-    if ($listing == 'new') {
-        $page_name = 'Add a new Listing';
-        $id = '';
-        $user_id = get_current_user_id();
-        $active = '0';
-        $ready_to_move = '0';
-        $title = '';
-        $listing_type = '';
-        $property_type = '';
-        $bhk_type = '';
-        $built_up_area = '';
-        $bedrooms = '';
-        $rent = '';
-        $deposit = '';
-        $negotiable = '0';
-        $maintenance_charges = '0';
-        $carpet_area = '';
-        $balconies = '';
-        $available_from = '';
-        $building_name = '';
-        $address = '';
-        $pincode = '';
-        $locality = '';
-        $city = '';
-        $state = '';
-        $parking = '0';
-        $gym = '0';
-        $cctv = '0';
-        $clubhouse = '0';
-        $indoor_games = '0';
-        $kids_area = '0';
-        $lift = '0';
-        $swimming_pool = '0';
-        $water_harvesting = '0';
-        $power_backup = '0';
-        $water_sewage = '0';
-        $party_hall = '0';
-        $facing = '';
-        $preferred_family = '0';
-        $preferred_bachelor = '0';
-        $preferred_commercial = '0';
-        $furnished = '';
-        $store_room = '0';
-        $prayer_room = '0';
-        $floor_number = '';
-        $total_floors = '';
-        $featured_image = '';
-        $image_1 = '';
-        $image_2 = '';
-        $image_3 = '';
-        $image_4 = '';
-        $image_5 = '';
+    $privileges = FALSE;
+    if (current_user_can('administrator') || current_user_can('propkorner_user')) {
+        $current_user = get_current_user_id();
+        ob_start();
+        global $wpdb;
+        $listing = isset($_GET['listing']) ? $_GET['listing'] != '' ? $_GET['listing'] : 'new' : 'new';
+        if (current_user_can('administrator')) {
+            $privileges = TRUE;
+        } else {
+            $sql = "SELECT id FROM `wp_propkorner_listings` WHERE `id`='$listing' AND `user_id`='$current_user'";
+            $results = $wpdb->get_results($sql);
+            $number = $wpdb->num_rows;
+            $privileges = $number > 0 ? TRUE : FALSE;
+            echo $privileges;
+        }
+        if ($privileges || $listing == 'new') {
+            if (isset($_POST['upload_listing'])) {
+                $insert_id = upload_listing($_POST);
+                $error = 'Listing updated!';
+                $listing = $insert_id;
+            } else {
+            }
+        } else {
+            $listing = 'new';
+        }
+        if ($listing == 'new') {
+            $page_name = 'Add a new Listing';
+            $id = '';
+            $user_id = get_current_user_id();
+            $active = '0';
+            $ready_to_move = '0';
+            $title = '';
+            $listing_type = '';
+            $property_type = '';
+            $bhk_type = '';
+            $built_up_area = '';
+            $bedrooms = '';
+            $rent = '';
+            $deposit = '';
+            $negotiable = '0';
+            $maintenance_charges = '0';
+            $carpet_area = '';
+            $balconies = '';
+            $available_from = '';
+            $building_name = '';
+            $address = '';
+            $pincode = '';
+            $locality = '';
+            $city = '';
+            $state = '';
+            $parking = '0';
+            $gym = '0';
+            $cctv = '0';
+            $clubhouse = '0';
+            $indoor_games = '0';
+            $kids_area = '0';
+            $lift = '0';
+            $swimming_pool = '0';
+            $water_harvesting = '0';
+            $power_backup = '0';
+            $water_sewage = '0';
+            $party_hall = '0';
+            $facing = '';
+            $preferred_family = '0';
+            $preferred_bachelor = '0';
+            $preferred_commercial = '0';
+            $furnished = '';
+            $store_room = '0';
+            $prayer_room = '0';
+            $floor_number = '';
+            $total_floors = '';
+            $featured_image = '';
+            $image_1 = '';
+            $image_2 = '';
+            $image_3 = '';
+            $image_4 = '';
+            $image_5 = '';
+        } else {
+            $page_name = 'Edit Listing';
+            $id = $listing;
+            $result = $wpdb->get_row("SELECT * FROM `wp_propkorner_listings` WHERE id = " . $listing);
+            $user_id = $result->user_id;
+            $active = $result->active;
+            $ready_to_move = $result->ready_to_move;
+            $title = $result->title;
+            $listing_type = $result->listing_type;
+            $property_type = $result->property_type;
+            $bhk_type = $result->bhk_type;
+            $built_up_area = $result->built_up_area;
+            $bedrooms = $result->bedrooms;
+            $rent = $result->rent;
+            $deposit = $result->deposit;
+            $negotiable = $result->negotiable;
+            $maintenance_charges = $result->maintenance_charges;
+            $carpet_area = $result->carpet_area;
+            $balconies = $result->balconies;
+            $available_from = $result->available_from;
+            $building_name = $result->building_name;
+            $address = $result->address;
+            $pincode = $result->pincode;
+            $locality = $result->locality;
+            $city = $result->city;
+            $state = $result->state;
+            $parking = $result->parking;
+            $gym = $result->gym;
+            $cctv = $result->cctv;
+            $clubhouse = $result->clubhouse;
+            $indoor_games = $result->indoor_games;
+            $kids_area = $result->kids_area;
+            $lift = $result->lift;
+            $swimming_pool = $result->swimming_pool;
+            $water_harvesting = $result->water_harvesting;
+            $power_backup = $result->power_backup;
+            $water_sewage = $result->water_sewage;
+            $party_hall = $result->party_hall;
+            $facing = $result->facing;
+            $preferred_family = $result->preferred_family;
+            $preferred_bachelor = $result->preferred_bachelor;
+            $preferred_commercial = $result->preferred_commercial;
+            $furnished = $result->furnished;
+            $store_room = $result->store_room;
+            $prayer_room = $result->prayer_room;
+            $floor_number = $result->floor_number;
+            $total_floors = $result->total_floors;
+            $featured_image = $result->featured_image;
+            $image_1 = $result->image_1;
+            $image_2 = $result->image_2;
+            $image_3 = $result->image_3;
+            $image_4 = $result->image_4;
+            $image_5 = $result->image_5;
+        }
+        require_once WPORTAL__PLUGIN_DIR . './templates/editlisting-tpl.php';
+        return ob_get_clean();
     } else {
-        $page_name = 'Edit Listing';
-        $id = $listing;
-        $result = $wpdb->get_row("SELECT * FROM `wp_propkorner_listings` WHERE id = " . $listing);
-        $user_id = $result->user_id;
-        $active = $result->active;
-        $ready_to_move = $result->ready_to_move;
-        $title = $result->title;
-        $listing_type = $result->listing_type;
-        $property_type = $result->property_type;
-        $bhk_type = $result->bhk_type;
-        $built_up_area = $result->built_up_area;
-        $bedrooms = $result->bedrooms;
-        $rent = $result->rent;
-        $deposit = $result->deposit;
-        $negotiable = $result->negotiable;
-        $maintenance_charges = $result->maintenance_charges;
-        $carpet_area = $result->carpet_area;
-        $balconies = $result->balconies;
-        $available_from = $result->available_from;
-        $building_name = $result->building_name;
-        $address = $result->address;
-        $pincode = $result->pincode;
-        $locality = $result->locality;
-        $city = $result->city;
-        $state = $result->state;
-        $parking = $result->parking;
-        $gym = $result->gym;
-        $cctv = $result->cctv;
-        $clubhouse = $result->clubhouse;
-        $indoor_games = $result->indoor_games;
-        $kids_area = $result->kids_area;
-        $lift = $result->lift;
-        $swimming_pool = $result->swimming_pool;
-        $water_harvesting = $result->water_harvesting;
-        $power_backup = $result->power_backup;
-        $water_sewage = $result->water_sewage;
-        $party_hall = $result->party_hall;
-        $facing = $result->facing;
-        $preferred_family = $result->preferred_family;
-        $preferred_bachelor = $result->preferred_bachelor;
-        $preferred_commercial = $result->preferred_commercial;
-        $furnished = $result->furnished;
-        $store_room = $result->store_room;
-        $prayer_room = $result->prayer_room;
-        $floor_number = $result->floor_number;
-        $total_floors = $result->total_floors;
-        $featured_image = $result->featured_image;
-        $image_1 = $result->image_1;
-        $image_2 = $result->image_2;
-        $image_3 = $result->image_3;
-        $image_4 = $result->image_4;
-        $image_5 = $result->image_5;
+        echo do_shortcode('[radel-login]');
     }
-
-
-    require_once WPORTAL__PLUGIN_DIR . './templates/editlisting-tpl.php';
-    return ob_get_clean();
 }
 
 function upload_listing($_options = '') {
