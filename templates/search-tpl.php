@@ -91,7 +91,7 @@
 <div class="wrap">
     <div id="search-container">
         <input id="search-term" type="search">
-        <button onclick="search_listings();">Search</button>
+        <button id="search-term-button" hidden onclick="search_listings();">Search</button>
     </div>
     <div id="listing-division"></div>
 </div>
@@ -117,7 +117,11 @@ $site_url = site_url();
         }
         property_listings();
     });
-
+    $('#search-term').keypress(function (e) {
+        if (e.which == 13) {//Enter key pressed
+            $('#search-term-button').click();//Trigger search button click event
+        }
+    });
     function search_listings() {
         term = $('#search-term').val();
         search.title = term;

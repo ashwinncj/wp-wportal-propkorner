@@ -40,8 +40,12 @@
         padding: 10px;
         display: none;
     }
+    .property-information{
+        column-count: 5;
+    }
     .property-information > p{
-        font-weight: 400;
+        font-weight: bold;
+        font-size: 15px;
     }
     .amenities img{
         width: 35px;
@@ -87,7 +91,9 @@
         .amenities{
             column-count: 2;
         }
-
+        .property-information{
+            column-count: 2;
+        }
     }
 </style>
 <div class="wrap">
@@ -128,10 +134,10 @@
         <div class="c100" style="text-align: center;margin-top: 25px; background-color: #f0f0f0;padding: 20px">
             <div class="c100" style="text-align: center"><p class="info-heading">Property Information</p></div>
             <div class="c100" style="text-align: center; border-bottom: 1px solid; padding-bottom: 20px;">
-                <div class="c100 property-information" style="column-count: 2">
+                <div class="c100 property-information">
                     <p>Price: <span rs="price"></span> INR</p>
                     <p>Status: <span rs="status"></span></p>
-                    <p>Area: <span rs="area"></span> INR</p>
+                    <p>Area: <span rs="area"></span> SqFt</p>
                     <p>BHK: <span rs="bhk-type"></span></p>
                     <p>Furnishing: <span rs="furnished"></span></p>
                 </div>
